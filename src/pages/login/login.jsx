@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 
+import { reqLogin } from '../../api'
 import './login.less'
 import logo from './images/logo.png'
 
@@ -25,9 +26,20 @@ class Login extends Component {
         /**
          * 对所有字段统一验证（防止未填写提交）
          */
-        this.props.form.validateFields((err, { username, password }) => {
+        this.props.form.validateFields(async (err, { username, password }) => {
             if (!err) {
-                alert(`send the ajax request of Signin, username = ${username}, password = ${password} `)
+                //alert(`send the ajax request of Signin, username = ${username}, password = ${password} `)
+                const result = await reqLogin(username, password)
+                //登陆成功
+                if (result.status === 0) {
+                    //跳转到管理界面
+                    this.props.history.replace('/')
+                    message.success('Welcome!')
+                }
+                //登录失败
+                else {
+                    message.error(result.msg)
+                }
             } else {
                 alert('false')
             }
