@@ -4,10 +4,11 @@
 
 import React,{Component} from 'react'
 import { message} from 'antd'
-import { BrowserRouter,  Switch, Route } from "react-router-dom"
+import { BrowserRouter,  Switch, Route, Redirect } from "react-router-dom"
 
 import Login from './pages/login/login.jsx'
 import Admin from './pages/admin/admin.jsx'
+import Homepage from './pages/homepage/homepage.jsx'
 
 class App extends Component{
 
@@ -19,9 +20,13 @@ class App extends Component{
         return (
           <BrowserRouter>
             <Switch> 
-              {/* /login */}
+            <Route path="/home" component= {Homepage}/>
               <Route path="/login" component={Login} />
               <Route path="/" component={Admin} />
+              <Redirect to='/home' />
+
+
+              
             </Switch>
           </BrowserRouter>
         )
