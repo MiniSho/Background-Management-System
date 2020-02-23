@@ -20,9 +20,12 @@ class App extends Component{
         return (
           <BrowserRouter>
             <Switch> 
-              
+            <Route path="/home" component= {Homepage}/>
               <Route path="/login" component={Login} />
               <Route path="/" component={Admin} />
+              <Redirect to='/home' />
+
+
               
             </Switch>
           </BrowserRouter>

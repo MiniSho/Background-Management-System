@@ -5,7 +5,7 @@ import { Layout } from 'antd'
 import LeftNav from '../../components/left-nav';
 import Header from '../../components/header';
 
-import Home from '../home/home.jsx'
+import AdminHome from '../home/home'
 import Category from '../category/category'
 import Product from '../product/product'
 import Role from '../role/role'
@@ -30,14 +30,14 @@ export default class Admin extends Component {
         }
         return (
             <Layout style={{ height: '100%' }}>
-                <Sider style={{ background: 'black' }} >
+                <Sider style={{ background: 'rgba(0,0,0,0.8)' }} >
                     <LeftNav />
                 </Sider>
                 <Layout>
                     <Header />
                     <Content style={{ background: 'white' }} >
                         <Switch>
-                            <Route path="/home" component={Home} />
+                            <Route path='/admin' component={AdminHome} />
                             <Route path='/category' component={Category} />
                             <Route path='/product' component={Product} />
                             <Route path='/role' component={Role} />
@@ -45,7 +45,7 @@ export default class Admin extends Component {
                             <Route path='/charts/bar' component={Bar} />
                             <Route path='/chartsS/line' component={Line} />
                             <Route path='/charts/pie' component={Pie} />
-                            <Redirect to='/home' />
+                            <Redirect to='/admin' />
                         </Switch>
 
                     </Content>
