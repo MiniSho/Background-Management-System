@@ -1,69 +1,94 @@
+/**
+ * 
+ * 待优化
+ * 
+ */
+
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Menu, Icon, Button } from 'antd'
 
+import menuList from '../../config/menuConfig'
 import logo from '../../assets/images/logo.png'
 import './index.less'
 
-
 const { SubMenu } = Menu
-export default class LeftNav extends Component {
+
+class LeftNav extends Component {
+    getMenuNodes = (menuList) => {
+        // 得到当前请求的path
+        const path = this.props.location.pathname
+
+        return menuList.reduce((pre, item) => {
+            // 判断当前用户是否有此item对应的权限
+
+            if (!item.children) {
+                pre.push((
+                    <Menu.Item key={item.key}>
+                        <Link to={item.key}>
+                            <Icon type={item.icon} />
+                            <span>{item.title}</span>
+                        </Link>
+                    </Menu.Item>
+                ))
+            } else {
+
+                //判断当前item的key是否是我需要的openKey
+
+                const cItem = item.children.find(cItem => cItem.Key === path)
+                if (cItem) {
+                    this.openKey = item.Key
+                }
+
+                pre.push((
+                    <SubMenu
+                        key={item.key}
+                        title={
+                            <span>
+                                <Icon type={item.icon} />
+                                <span>{item.title}</span>
+                            </span>
+                        }
+                    >
+                        {this.getMenuNodes(item.children)}
+                    </SubMenu>
+                ))
+            }
+
+
+            return pre
+        }, [])
+    }
+
+
     render() {
+        const menuNodes = this.getMenuNodes(menuList)
+        const selectKey = this.props.location.pathname
+
+        console.log('selectKey', selectKey)
+        console.log('openKey', this.openKey)
+
         return (
             <div className="left-nav">
-                <Link className='left-nav-link ' to='/admin'>
+                <Link className='left-nav-link ' to='/home'>
                     <img src={logo} alt="logo" />
                     <h1>Pokémon Center</h1>
                 </Link>
 
                 <Menu
+                    selectedKeys={[this.openKey]}
                     mode="inline"
                     theme="dark"
-                >
-                    <Menu.Item key="1">
-                        <Icon type="pie-chart" />
-                        <span>Option 1</span>
-                    </Menu.Item>
-                    <Menu.Item key="2">
-                        <Icon type="desktop" />
-                        <span>Option 2</span>
-                    </Menu.Item>
-                    <Menu.Item key="3">
-                        <Icon type="inbox" />
-                        <span>Option 3</span>
-                    </Menu.Item>
-                    <SubMenu
-                        key="sub1"
-                        title={
-                            <span>
-                                <Icon type="mail" />
-                                <span>Navigation One</span>
-                            </span>
-                        }
-                    >
-                        <Menu.Item key="5">Option 5</Menu.Item>
-                        <Menu.Item key="6">Option 6</Menu.Item>
-                        <Menu.Item key="7">Option 7</Menu.Item>
-                        <Menu.Item key="8">Option 8</Menu.Item>
-                    </SubMenu>
-                    <SubMenu
-                        key="sub2"
-                        title={
-                            <span>
-                                <Icon type="appstore" />
-                                <span>Navigation Two</span>
-                            </span>
-                        }
-                    >
-                        <Menu.Item key="9">Option 9</Menu.Item>
-                        <Menu.Item key="10">Option 10</Menu.Item>
-                        <SubMenu key="sub3" title="Submenu">
-                            <Menu.Item key="11">Option 11</Menu.Item>
-                            <Menu.Item key="12">Option 12</Menu.Item>
-                        </SubMenu>
-                    </SubMenu>
+                >{
+                        menuNodes
+                    }
+
                 </Menu>
             </div>
         )
     }
 }
+/** 向外暴露 使用高阶组件 withRouter()来包装非路由组件
+ * 目的：LeftNav可以操作路由组件的操作
+ */
+export default withRouter(LeftNav)
