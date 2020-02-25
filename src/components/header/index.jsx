@@ -7,7 +7,6 @@ import memoryUtils from '../../utils/memorysUtils'
 import storageUtils from '../../utils/storageUtils'
 import { Modal } from 'antd'
 
-
 class Header extends Component {
 
     /**
@@ -59,7 +58,7 @@ class Header extends Component {
             <div className="header">
                 <div className="header-top">
                     Hello, {user.username} &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="javasript:" onClick={this.logout}>Sign out</a>
+                    <a href="javasript:" onClick={this.logout} className='link'>Sign out</a>
                 </div>
                 <div className="header-bottom">
                     {title}
