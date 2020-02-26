@@ -10,6 +10,7 @@ import Category from '../category/category'
 import Product from '../product/product'
 import Role from '../role/role'
 import User from '../user/user'
+import Book from '../book/book'
 import Bar from '../charts/bar.jsx'
 import Line from '../charts/line'
 import Pie from '../charts/pie.jsx'
@@ -29,22 +30,23 @@ export default class Admin extends Component {
             return <Redirect to='/login' />//自动跳转到指定的路由路径
         }
         return (
-            <Layout style={{ height: '100%' }}>
+            <Layout style={{ height: '100vh' }}>
                 <Sider style={{ background: 'rgba(0,0,0,0.8)' }} >
                     <LeftNav />
                 </Sider>
                 <Layout>
                     <Header />
-                    <Content style={{ background: 'white' }} >
+                    <Content style={{ background: 'white' }}>
                         <Switch>
-                            <Route path='/admin' component={AdminHome} />
-                            <Route path='/category' component={Category} />
-                            <Route path='/product' component={Product} />
-                            <Route path='/role' component={Role} />
-                            <Route path='/user' component={User} />
-                            <Route path='/charts/bar' component={Bar} />
-                            <Route path='/charts/line' component={Line} />
-                            <Route path='/charts/pie' component={Pie} />
+                            <Route path='/admin' exact component={AdminHome} />
+                            <Route path='/admin/category' component={Category} />
+                            <Route path='/admin/product' component={Product} />
+                            <Route path='/admin/role' component={Role} />
+                            <Route path='/admin/user' component={User} />
+                            <Route path='/admin/book' component={Book} />
+                            <Route path='/admin/charts/bar' component={Bar} />
+                            <Route path='/admin/charts/line' component={Line} />
+                            <Route path='/admin/charts/pie' component={Pie} />
                             <Redirect to='/admin' />
                         </Switch>
 

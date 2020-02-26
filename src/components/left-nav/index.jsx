@@ -79,6 +79,7 @@ class LeftNav extends Component {
                     selectedKeys={[this.openKey]}
                     mode="inline"
                     theme="dark"
+                    type="primary"
                 >{
                         menuNodes
                     }

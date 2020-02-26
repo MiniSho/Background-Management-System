@@ -3,12 +3,10 @@ import React, { Component } from 'react'
 
 const { Footer, Header, Content } = Layout;
 
-export default class Bar extends Component {
+export default class Book extends Component {
     render() {
         return (
-            <div>
-
-            </div>
+            <div></div>
         )
     }
 }

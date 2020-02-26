@@ -25,7 +25,7 @@ class Header extends Component {
                 // 内存中的
                 memoryUtils.user = {}
                 // 跳转到主界面
-                this.props.history.replace('/home')
+                this.props.history.replace('/')
             },
             onCancel() {
                 console.log('Cancel');

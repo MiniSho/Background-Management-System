@@ -6,10 +6,12 @@ import React, { Component } from 'react'
 */
 export default class AdminHome extends Component {
     render() {
+        console.log('aaaa')
         return (
-            <div className="adminHome">
+
+            < div className="adminHome" >
                 欢迎使用硅谷后台管理系统
-      </div>
+      </div >
         )
     }
 }

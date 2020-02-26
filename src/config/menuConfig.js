@@ -7,17 +7,17 @@ const menuList = [
     },
     {
       title: 'Products',
-      key: '/products',
+      key: '/admin/products',
       icon: 'appstore',
       children: [ // 子菜单列表
         {
           title: 'Category',
-          key: '/category',
+          key: '/admin/category',
           icon: 'bars'
         },
         {
           title: 'AAA',
-          key: '/product',
+          key: '/admin/product',
           icon: 'tool'
         },
       ]
@@ -25,33 +25,33 @@ const menuList = [
   
     {
       title: 'User Management',
-      key: '/user',
+      key: '/admin/user',
       icon: 'user'
     },
     {
-      title: 'Role Management',
-      key: '/role',
-      icon: 'safety',
+      title: 'Book Management',
+      key: '/admin/book',
+      icon: 'book',
     },
   
     {
       title: 'Area',
-      key: '/charts',
+      key: '/admin/charts',
       icon: 'area-chart',
       children: [
         {
           title: 'Bar',
-          key: '/charts/bar',
+          key: '/admin/charts/bar',
           icon: 'bar-chart'
         },
         {
           title: 'Line',
-          key: '/charts/line',
+          key: '/admin/charts/line',
           icon: 'line-chart'
         },
         {
           title: 'Pie',
-          key: '/charts/pie',
+          key: '/admin/charts/pie',
           icon: 'pie-chart'
         },
       ]
