@@ -1,4 +1,4 @@
-import { Layout } from 'antd'
+import { Layout, message, Modal } from 'antd'
 import Highlighter from 'react-highlight-words';
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
@@ -10,6 +10,7 @@ import {
     Input
 } from 'antd'
 
+import { reqBookInfos } from '../../api'
 
 const { Footer, Header, Content } = Layout;
 const data = [
@@ -126,7 +127,56 @@ class Category extends Component {
         this.setState({ searchText: '' });
     };
 
+    state = {
+        categorys: [],// 所有分类的数组
+        showStatus: 0, // 0: 不显示， 1：显示添加，2：显示修改
+    }
+
+    // getBookInfos = () => {
+    //     const result = await reqBookInfos()
+    //     if (result.status === 0) { //成功
+    //         const categorys = result.data
+    //         //更新状态BookInfos数据
+    //         this.setState({
+    //             categorys
+    //         })
+
+    //     } else {
+    //         message.error('获取分类列表失败')
+    //     }
+    // }
+
+    // componentDidMount() {
+    //     this.getBookInfos()
+    // }
+
+    /**
+     * 异步获取分类列表显示
+     */
+
+
+    /** 
+    点击确定的回调：添加/修改信息
+     */
+    handleOk = () => {
+
+    }
+
+    /**
+     * 点击取消的回调
+     */
+
+    handleCancel = () => {
+        this.setState({
+            showStatus: 0
+        })
+    }
     render() {
+
+
+        //取出状态数据
+        const { categorys, loading, showStatus } = this.state
+
         const columns = [
 
             {
@@ -190,8 +240,18 @@ class Category extends Component {
                     dataSource={data}
                     style={{ marginLeft: '50px', marginRight: '50px' }}
                     bordered
+                    loading={true}
                     pagination={{ defaultPageSize: 6, hideOnSinglePage: true, showQuickJumper: true }}
                 />
+
+                <Modal
+                    title={showStatus === 1 ? "add" : "edit"}
+                    visible={showStatus !== 0}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                >
+
+                </Modal>
             </Card>
 
         )

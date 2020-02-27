@@ -26,3 +26,7 @@ export const reqLogin = (username,password) => ajax.post(BASE + '/login', {usern
 //  }, error =>{
 //      console.log('request failed'+ error.message)
 //  })
+
+
+//获取书籍列表的请求url
+export const reqBookInfos = () => ajax(BASE + '/manage/category/list')
