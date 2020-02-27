@@ -6,8 +6,7 @@ import LeftNav from '../../components/left-nav';
 import Header from '../../components/header';
 
 import AdminHome from '../home/home'
-import Category from '../category/category'
-import Product from '../product/product'
+import Product from '../products/product'
 import Role from '../role/role'
 import User from '../user/user'
 import Book from '../book/book'
@@ -39,8 +38,7 @@ export default class Admin extends Component {
                     <Content style={{ background: 'white' }}>
                         <Switch>
                             <Route path='/admin' exact component={AdminHome} />
-                            <Route path='/admin/category' component={Category} />
-                            <Route path='/admin/product' component={Product} />
+                            <Route path='/admin/products' component={Product} />
                             <Route path='/admin/role' component={Role} />
                             <Route path='/admin/user' component={User} />
                             <Route path='/admin/book' component={Book} />

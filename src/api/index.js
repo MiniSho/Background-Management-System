@@ -30,3 +30,12 @@ export const reqLogin = (username,password) => ajax.post(BASE + '/login', {usern
 
 //获取书籍列表的请求url
 export const reqBookInfos = () => ajax(BASE + '/manage/category/list')
+
+/**
+ * 获取商品分页列表
+ */
+export const reqProducts = (pageNum, pageSize) => ajax( BASE + '/manage/product/list', {
+    params: {//包含所有query参数的对象
+        pageNum, pageSize
+    }
+})
