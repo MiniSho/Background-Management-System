@@ -9,18 +9,6 @@ const menuList = [
       title: 'Products',
       key: '/admin/products',
       icon: 'appstore',
-      children: [ // 子菜单列表
-        {
-          title: 'Category',
-          key: '/admin/category',
-          icon: 'bars'
-        },
-        {
-          title: 'AAA',
-          key: '/admin/product',
-          icon: 'tool'
-        },
-      ]
     },
   
     {
