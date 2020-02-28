@@ -39,3 +39,25 @@ export const reqProducts = (pageNum, pageSize) => ajax( BASE + '/manage/product/
         pageNum, pageSize
     }
 })
+
+export const reqSearchProducts = ({
+    pageNum, 
+    pageSize, 
+    searchName, 
+    searchType // 它的值是'productName'或者'productDesc'
+}) => ajax( BASE, {
+    //method: 'GET'
+    params:{
+        pageNum,
+        pageSize,
+        [searchType]:searchName,
+    }
+})
+
+export const reqUpdateStatus = (productId, status) => ajax (BASE + '/manage/product/updateStatus',{
+    method:'POST',
+    data:{
+        productId,
+        status
+    }
+})

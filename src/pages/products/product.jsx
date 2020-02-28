@@ -8,8 +8,10 @@ import {
     message
 } from 'antd'
 import React, { Component } from 'react'
-import { reqProducts } from '../../api'
+import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
 import LinkButton from '../../components/link-button'
+import { PAGE_SIZE } from '../../utils/Constants'
+
 
 const Option = Select.Option
 
@@ -17,8 +19,26 @@ const Option = Select.Option
 export default class Product extends Component {
     state = {
         loading: false,
-        products: [],
+        products: [{
+            'name': 'aaa'
+        }, {
+            'name': 'ddd'
+        },
+        {
+            'name': 'bbb'
+        }],
         total: 0,//书籍的总数量
+        searchType: 'name',//默认安书籍名称搜索
+        searchName: '',//搜索关键字
+    }
+
+    updateStatus = async (productId, status) => {
+        status = status === 1 ? 2 : 1
+        const result = await reqUpdateStatus(productId, status)
+        if (result.status === 0) {
+            message.success('update completed')
+            this.getProducts(this.pageNum)
+        }
     }
 
     initColumns = () => {
@@ -44,16 +64,17 @@ export default class Product extends Component {
             {
                 title: 'status',
                 width: 100,
-                dataIndex: 'status',
-                render: (status) => {
+                //dataIndex: 'status',
+                render: ({ status, _id }) => {
                     let btnText = 'remove'
                     let text = 'for sale'
                     if (status === 2) {
-                        btnText = ''
+                        btnText = 'on sale'
+                        text = 'removed'
                     }
                     return (
                         <span>
-                            <button> {btnText}</button><b />
+                            <button onClick={() => { this.updateStatus(_id, status) }}> {btnText}</button><b />
                             <span> for sale</span>
                         </span >
 
@@ -75,12 +96,23 @@ export default class Product extends Component {
     }
 
     /**
-     * 异步获取指定页码商品列表显示
+     * 异步获取指定页码商品分页（可能再搜索）列表显示
      */
 
-    getProduts = async (pageNum) => {
-        const result = await reqProducts(pageNum, 2)
-        if (result.data === 0) {
+    getProducts = async (pageNum) => {
+        // 保存当前请求的页码
+        this.pageNum = pageNum
+        const { searchName, searchType } = this.state
+        let result
+        // 发请求获取数据
+        if (!this.isSearch) {
+            result = await reqProducts(pageNum, PAGE_SIZE)
+        } else {
+            result = await reqSearchProducts({ pageNum, pageSize: PAGE_SIZE, searchName, searchType })
+        }
+
+
+        if (result.status === 0) {
             const { total, list } = result.data
             //更新状态
             this.setState({
@@ -96,18 +128,30 @@ export default class Product extends Component {
 
     componentDidMount() {
         // 获取一页显示
-        this.getProduts(1)
+        this.getProducts(1)
     }
     render() {
-        const { loading, products, total } = this.state
+        const { loading, products, total, searchType, searchName } = this.state
         const title = (
             <span>
-                <Select style={{ width: 120, marginLeft: 20 }} value="1">
-                    <Option value="1">name</Option>
-                    <Option value="2">ISBN</Option>
+                <Select
+                    style={{ width: 120, marginLeft: 20 }}
+                    value={searchType}
+                    onChange={(value) => this.setState({ searchType: value })}
+                >
+                    <Option value="name">name</Option>
+                    <Option value="ISBN">ISBN</Option>
                 </Select>
-                <Input style={{ width: 200, margin: '0 15px' }} placeholder="keyword" />
-                <Button type="primary">search</Button>
+                <Input
+                    style={{ width: 200, margin: '0 15px' }}
+                    placeholder="keyword"
+                    value={searchName}
+                    onChange={event => this.setState({ searchName: event.target.value })}
+                />
+                <Button type="primary" onClick={() => {
+                    this.isSearch = true  // 保存搜索的标记
+                    this.getProducts(1)
+                }}>search</Button>
             </span>
         )
 
@@ -127,7 +171,13 @@ export default class Product extends Component {
                     loading={loading}
                     columns={this.columns}
                     dataSource={products}
-                    pagination={{ total, defaultPageSize: 2, showQuickJumper: true, onChange: this.getProducts }}
+                    pagination={{
+                        total,
+                        defaultPageSize: PAGE_SIZE,
+                        showQuickJumper: true,
+                        onChange: this.getProducts,
+                        current: this.pageNum
+                    }}
                 />
             </Card>
         )
